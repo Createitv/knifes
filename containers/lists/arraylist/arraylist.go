@@ -6,9 +6,11 @@ package arraylist
 
 import (
 	"fmt"
+	"reflect"
+	"strings"
+
 	"github.com/createitv/knifes/containers/lists"
 	"github.com/createitv/knifes/internal"
-	"strings"
 )
 
 var _ lists.List = (lists.List)(nil)
@@ -25,7 +27,7 @@ const (
 )
 
 // New instantiates a new list and adds the passed values, if any, to the list
-func New[T any](values ...T) *List[T] {
+func New[T any](values []T) *List[T] {
 	list := &List[T]{
 		elements: nil,
 		size:     0,
@@ -81,7 +83,7 @@ func (list *List[T]) Contains(values ...T) bool {
 	for _, searchValue := range values {
 		found := false
 		for index := 0; index < list.size; index++ {
-			if list.elements[index] == searchValue {
+			if reflect.DeepEqual(searchValue, list.elements[index]) {
 				found = true
 				break
 			}
@@ -95,7 +97,7 @@ func (list *List[T]) Contains(values ...T) bool {
 
 // Values returns all elements in the list.
 func (list *List[T]) Values() []T {
-	newElements := make([]T, list.size, list.size)
+	newElements := make([]T, list.size)
 	copy(newElements, list.elements[:list.size])
 	return newElements
 }
@@ -106,7 +108,7 @@ func (list *List[T]) IndexOf(value T) int {
 		return -1
 	}
 	for index, element := range list.elements {
-		if element == value {
+		if reflect.DeepEqual(element, value) {
 			return index
 		}
 	}
@@ -167,7 +169,7 @@ func (list *List[T]) Insert(index int, values ...T) {
 // Set the value at specified index
 // Does not do anything if position is negative or bigger than list's size
 // Note: position equal to list's size is valid, i.e. append.
-func (list *List[T]) Set(index int, value interface{}) {
+func (list *List[T]) Set(index int, value T) {
 
 	if !list.withinRange(index) {
 		// Append
@@ -197,7 +199,7 @@ func (list *List[T]) withinRange(index int) bool {
 }
 
 func (list *List[T]) resize(cap int) {
-	newElements := make([]T, cap, cap)
+	newElements := make([]T, cap)
 	copy(newElements, list.elements)
 	list.elements = newElements
 }
