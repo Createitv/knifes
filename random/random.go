@@ -13,10 +13,10 @@ import (
 )
 
 const (
-	Numeral       = "0123456789"
-	LowwerLetters = "abcdefghijklmnopqrstuvwxyz"
-	UpperLetters  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	Letters       = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Numeral      = "0123456789"
+	LowerLetters = "abcdefghijklmnopqrstuvwxyz"
+	UpperLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	Letters      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
 func init() {
@@ -62,7 +62,7 @@ func RandUpper(length int) string {
 
 // RandLower generate a random lower case string.
 func RandLower(length int) string {
-	return random(LowwerLetters, length)
+	return random(LowerLetters, length)
 }
 
 // RandNumeral generate a random numeral string of specified length.
